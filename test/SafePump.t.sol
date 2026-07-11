@@ -313,4 +313,82 @@ contract SafePumpTest is Test {
         
         assertEq(token.balanceOf(creator), 0);
     }
+
+    function test_financialMechanisms() public {
+        // 1. Create a token
+        vm.prank(creator);
+        tokenAddress = factory.createToken("SafePump Coin", "SPC");
+        token = SafePumpToken(payable(tokenAddress));
+
+        // Complete incubation phase to lift the 1.5% max wallet limit
+        _completeIncubation();
+
+        uint256 initTokensSold;
+        uint256 initEthRaised;
+        {
+            (,, uint256 ts, uint256 er, ) = factory.tokens(tokenAddress);
+            initTokensSold = ts;
+            initEthRaised = er;
+        }
+
+        uint256 tokensBought;
+        
+        // 2. Perform a buy swap from buyer1 of 0.05 ETH
+        {
+            uint256 initCreatorBalance = creator.balance;
+            uint256 initFeeRecipientBalance = feeRecipient.balance;
+
+            vm.prank(buyer1);
+            factory.buy{value: 0.05 ether}(tokenAddress);
+
+            // Verify balances after buy (1% fee = 0.0005 ether, 40% creator = 0.0002, 60% platform = 0.0003)
+            assertEq(creator.balance - initCreatorBalance, 0.0002 ether, "Creator share on buy mismatch");
+            assertEq(feeRecipient.balance - initFeeRecipientBalance, 0.0003 ether, "Platform share on buy mismatch");
+
+            (,, uint256 ts, uint256 er, ) = factory.tokens(tokenAddress);
+            assertEq(er - initEthRaised, 0.0495 ether, "ETH raised mismatch on buy");
+            tokensBought = ts - initTokensSold;
+        }
+
+        // 3. Perform a sell swap from buyer1
+        // To sell, we first need to roll the block since we bought in this block (cooldown)
+        vm.roll(block.number + 1);
+
+        {
+            // Expected gross ETH output calculation
+            uint256 expectedEthOut = factory.getAmountOutEth(tokenAddress, tokensBought);
+            // Fee on sell is 1% of expectedEthOut: expectedEthOut / 100
+            uint256 sellFee = expectedEthOut / 100;
+            uint256 expectedEthToUser = expectedEthOut - sellFee;
+            
+            uint256 creatorShareSell = (sellFee * 40) / 100;
+            uint256 platformShareSell = sellFee - creatorShareSell;
+
+            // Save balances before sell
+            uint256 balCreatorBeforeSell = creator.balance;
+            uint256 balFeeRecipientBeforeSell = feeRecipient.balance;
+            uint256 balBuyerBeforeSell = buyer1.balance;
+
+            // Approve and sell
+            vm.prank(buyer1);
+            token.approve(address(factory), tokensBought);
+            
+            vm.prank(buyer1);
+            factory.sell(tokenAddress, tokensBought);
+
+            // Verify fee distribution on sell
+            assertEq(creator.balance - balCreatorBeforeSell, creatorShareSell, "Creator share on sell mismatch");
+            assertEq(feeRecipient.balance - balFeeRecipientBeforeSell, platformShareSell, "Platform share on sell mismatch");
+            
+            // Verify buyer received net ETH
+            assertEq(buyer1.balance - balBuyerBeforeSell, expectedEthToUser, "Buyer net ETH output mismatch");
+        }
+
+        // Verify factory token state is reset to incubation state (with 1 wei tolerance for rounding)
+        {
+            (,, uint256 tokensSoldAfter, uint256 ethRaisedAfter, ) = factory.tokens(tokenAddress);
+            assertApproxEqAbs(tokensSoldAfter, initTokensSold, 1, "Tokens sold mismatch after sell");
+            assertApproxEqAbs(ethRaisedAfter, initEthRaised, 1, "ETH raised mismatch after sell");
+        }
+    }
 }
