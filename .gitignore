@@ -1,0 +1,25 @@
+# Cache & Compilation
+out/
+cache/
+artifacts/
+build/
+dist/
+node_modules/
+.svelte-kit/
+.next/
+
+# Environnement & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Binaires
+bin/
+safepump-api
