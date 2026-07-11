@@ -23,3 +23,7 @@ Thumbs.db
 # Binaires
 bin/
 safepump-api
+safepump-backend
+backend/backend
+backend/safepump-backend
+backend/api/api
