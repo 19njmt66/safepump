@@ -26,15 +26,27 @@ func StartServer(addr string, hub *Hub) error {
 		c.Next()
 	})
 
+	// Serve static uploads
+	router.Static("/uploads", "./uploads")
+
 	// API Routes Group
 	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/tokens", GetTokens)
 		v1.GET("/tokens/:address", GetTokenDetails)
+		v1.GET("/tokens/:address/audit", GetTokenAudit)
 		v1.POST("/tokens/:address/metadata", UpdateTokenMetadata)
 		v1.GET("/tokens/:address/trades", GetTokenTrades)
+		v1.GET("/tokens/:address/holders", GetTokenHolders)
 		v1.GET("/tokens/:address/candles", GetTokenCandles)
 		v1.GET("/creator/:creator/tokens", GetCreatorTokens)
+		v1.POST("/upload", UploadFile)
+		v1.GET("/users/:address", GetUserProfile)
+		v1.GET("/users/:address/portfolio", GetUserPortfolio)
+		v1.GET("/users/:address/trades", GetUserTrades)
+		v1.GET("/trades", GetRecentTrades)
+		v1.POST("/users/profile", UpdateUserProfile)
+		v1.GET("/config", GetConfig)
 	}
 
 	// WebSocket endpoint

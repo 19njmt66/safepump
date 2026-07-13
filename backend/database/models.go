@@ -23,9 +23,22 @@ type Token struct {
 	PairAddress  string    `gorm:"type:varchar(42)" json:"pair_address"`
 	Description  string    `gorm:"type:text" json:"description"`
 	ImageUrl     string    `gorm:"type:text" json:"image_url"`
+	Website      string    `gorm:"type:text" json:"website"`
+	Twitter      string    `gorm:"type:text" json:"twitter"`
+	Telegram     string    `gorm:"type:text" json:"telegram"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	Trades       []Trade   `gorm:"foreignKey:TokenAddress" json:"-"`
+}
+
+// User represents a trader or creator profile on SafePump
+type User struct {
+	Address   string    `gorm:"primaryKey;type:varchar(42)" json:"address"`
+	Username  string    `gorm:"type:varchar(100)" json:"username"`
+	Bio       string    `gorm:"type:text" json:"bio"`
+	AvatarUrl string    `gorm:"type:text" json:"avatar_url"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // Trade represents a buy or sell transaction on the bonding curve
@@ -36,7 +49,7 @@ type Trade struct {
 	BlockNumber   uint64    `json:"block_number"`
 	Timestamp     time.Time `gorm:"index" json:"timestamp"`
 	IsBuy         bool      `json:"is_buy"`
-	BuyerOrSeller string    `gorm:"type:varchar(42)" json:"buyer_or_seller"`
+	BuyerOrSeller string    `gorm:"type:varchar(42);index" json:"buyer_or_seller"`
 	TokenAmount   string    `gorm:"type:numeric" json:"token_amount"`
 	EthAmount     string    `gorm:"type:numeric" json:"eth_amount"`
 	Fee           string    `gorm:"type:numeric" json:"fee"`

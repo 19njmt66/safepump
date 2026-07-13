@@ -39,6 +39,7 @@ contract SafePumpFactory is Ownable {
         uint256 tokensSold;
         uint256 ethRaised;
         bool migrated;
+        bool hasCreatorBonus;
     }
 
     // Configurable addresses
@@ -73,19 +74,25 @@ contract SafePumpFactory is Ownable {
     /**
      * @notice Deploy a new SafePumpToken
      */
-    function createToken(string memory name, string memory symbol) external returns (address) {
+    function createToken(string memory name, string memory symbol) external payable returns (address) {
+        require(msg.value == 0 || msg.value == 0.02127 ether, "SafePump: Invalid deployment value");
         SafePumpToken newToken = new SafePumpToken(name, symbol, msg.sender);
         address tokenAddress = address(newToken);
 
-        // Transfer 5% creator vesting allocation to the creator
-        newToken.transfer(msg.sender, 50_000_000 * 10**18);
+        bool hasBonus = (msg.value == 0.02127 ether);
+
+        if (hasBonus) {
+            // Transfer 5% creator vesting allocation to the creator
+            newToken.transfer(msg.sender, 50_000_000 * 10**18);
+        }
 
         tokens[tokenAddress] = TokenInfo({
             tokenAddress: tokenAddress,
             creator: msg.sender,
             tokensSold: 0,
             ethRaised: 0,
-            migrated: false
+            migrated: false,
+            hasCreatorBonus: hasBonus
         });
 
         allTokens.push(tokenAddress);
@@ -104,7 +111,8 @@ contract SafePumpFactory is Ownable {
         require(msg.value > 0, "SafePump: ETH must be greater than zero");
 
         uint256 ethAmount = msg.value;
-        uint256 remainingTokens = MAX_BONDING_CURVE_TOKENS - info.tokensSold;
+        uint256 maxTokens = info.hasCreatorBonus ? MAX_BONDING_CURVE_TOKENS : (MAX_BONDING_CURVE_TOKENS + 50_000_000 * 10**18);
+        uint256 remainingTokens = maxTokens - info.tokensSold;
 
         uint256 fee;
         uint256 netEthAmount;
@@ -167,7 +175,8 @@ contract SafePumpFactory is Ownable {
         }
 
         // Migrate if bonding curve target reached
-        if (info.tokensSold >= MAX_BONDING_CURVE_TOKENS) {
+        uint256 maxTokensBuy = info.hasCreatorBonus ? MAX_BONDING_CURVE_TOKENS : (MAX_BONDING_CURVE_TOKENS + 50_000_000 * 10**18);
+        if (info.tokensSold >= maxTokensBuy) {
             _migrate(tokenAddress);
         }
     }

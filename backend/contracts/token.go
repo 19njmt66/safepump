@@ -31,7 +31,7 @@ var (
 
 // SafePumpTokenMetaData contains all meta data concerning the SafePumpToken contract.
 var SafePumpTokenMetaData = &bind.MetaData{
-	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"name\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"_creator\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"CREATOR_ALLOCATION\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"MAX_WALLET_LIMIT\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"SELL_LIMIT_24H\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"TOTAL_SUPPLY\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"VESTING_RELEASE_RATE_PER_DAY\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"allowance\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"approve\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"balanceOf\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"creator\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"decimals\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint8\",\"internalType\":\"uint8\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"factory\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getLockedCreatorAmount\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"incubationComplete\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"isExcludedFromMaxWallet\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"isExcludedFromSellLimit\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lastBuyBlock\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"launchBlock\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"migrationComplete\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"migrationTime\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"name\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"string\",\"internalType\":\"string\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"sellRecords\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"amountSold\",\"type\":\"uint128\",\"internalType\":\"uint128\"},{\"name\":\"lastWindowStart\",\"type\":\"uint128\",\"internalType\":\"uint128\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"setIncubationComplete\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setMigrationComplete\",\"inputs\":[{\"name\":\"_pair\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_router\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"symbol\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"string\",\"internalType\":\"string\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"totalSupply\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transfer\",\"inputs\":[{\"name\":\"to\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"transferFrom\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"to\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"uniswapV2Pair\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"uniswapV2Router\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"event\",\"name\":\"Approval\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"spender\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"IncubationCompleted\",\"inputs\":[],\"anonymous\":false},{\"type\":\"event\",\"name\":\"MigrationCompleted\",\"inputs\":[{\"name\":\"pair\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"router\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Transfer\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"to\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"ERC20InsufficientAllowance\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"allowance\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"needed\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ERC20InsufficientBalance\",\"inputs\":[{\"name\":\"sender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"balance\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"needed\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidApprover\",\"inputs\":[{\"name\":\"approver\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidReceiver\",\"inputs\":[{\"name\":\"receiver\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidSender\",\"inputs\":[{\"name\":\"sender\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidSpender\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"}]}]",
+	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"name\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"_creator\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"MAX_WALLET_LIMIT\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"SELL_LIMIT_24H\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"TOTAL_SUPPLY\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"allowance\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"approve\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"balanceOf\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"creator\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"decimals\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint8\",\"internalType\":\"uint8\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"factory\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"incubationComplete\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"isExcludedFromMaxWallet\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"isExcludedFromSellLimit\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lastBuyBlock\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"launchBlock\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"maxWalletLimit\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"migrationComplete\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"migrationTime\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"name\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"string\",\"internalType\":\"string\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"sellRecords\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"amountSold\",\"type\":\"uint128\",\"internalType\":\"uint128\"},{\"name\":\"lastWindowStart\",\"type\":\"uint128\",\"internalType\":\"uint128\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"setIncubationComplete\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setMaxWalletLimit\",\"inputs\":[{\"name\":\"newLimit\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setMigrationComplete\",\"inputs\":[{\"name\":\"_pair\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_router\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"symbol\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"string\",\"internalType\":\"string\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"totalSupply\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transfer\",\"inputs\":[{\"name\":\"to\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"transferFrom\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"to\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"uniswapV2Pair\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"uniswapV2Router\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"event\",\"name\":\"Approval\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"spender\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"IncubationCompleted\",\"inputs\":[],\"anonymous\":false},{\"type\":\"event\",\"name\":\"MigrationCompleted\",\"inputs\":[{\"name\":\"pair\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"router\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Transfer\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"to\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"value\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"ERC20InsufficientAllowance\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"allowance\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"needed\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ERC20InsufficientBalance\",\"inputs\":[{\"name\":\"sender\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"balance\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"needed\",\"type\":\"uint256\",\"internalType\":\"uint256\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidApprover\",\"inputs\":[{\"name\":\"approver\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidReceiver\",\"inputs\":[{\"name\":\"receiver\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidSender\",\"inputs\":[{\"name\":\"sender\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"ERC20InvalidSpender\",\"inputs\":[{\"name\":\"spender\",\"type\":\"address\",\"internalType\":\"address\"}]}]",
 }
 
 // SafePumpTokenABI is the input ABI used to generate the binding from.
@@ -180,37 +180,6 @@ func (_SafePumpToken *SafePumpTokenTransactorRaw) Transact(opts *bind.TransactOp
 	return _SafePumpToken.Contract.contract.Transact(opts, method, params...)
 }
 
-// CREATORALLOCATION is a free data retrieval call binding the contract method 0x2bc73063.
-//
-// Solidity: function CREATOR_ALLOCATION() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCaller) CREATORALLOCATION(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _SafePumpToken.contract.Call(opts, &out, "CREATOR_ALLOCATION")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
-}
-
-// CREATORALLOCATION is a free data retrieval call binding the contract method 0x2bc73063.
-//
-// Solidity: function CREATOR_ALLOCATION() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenSession) CREATORALLOCATION() (*big.Int, error) {
-	return _SafePumpToken.Contract.CREATORALLOCATION(&_SafePumpToken.CallOpts)
-}
-
-// CREATORALLOCATION is a free data retrieval call binding the contract method 0x2bc73063.
-//
-// Solidity: function CREATOR_ALLOCATION() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCallerSession) CREATORALLOCATION() (*big.Int, error) {
-	return _SafePumpToken.Contract.CREATORALLOCATION(&_SafePumpToken.CallOpts)
-}
-
 // MAXWALLETLIMIT is a free data retrieval call binding the contract method 0xc6cfdc5b.
 //
 // Solidity: function MAX_WALLET_LIMIT() view returns(uint256)
@@ -302,37 +271,6 @@ func (_SafePumpToken *SafePumpTokenSession) TOTALSUPPLY() (*big.Int, error) {
 // Solidity: function TOTAL_SUPPLY() view returns(uint256)
 func (_SafePumpToken *SafePumpTokenCallerSession) TOTALSUPPLY() (*big.Int, error) {
 	return _SafePumpToken.Contract.TOTALSUPPLY(&_SafePumpToken.CallOpts)
-}
-
-// VESTINGRELEASERATEPERDAY is a free data retrieval call binding the contract method 0x0fcbac51.
-//
-// Solidity: function VESTING_RELEASE_RATE_PER_DAY() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCaller) VESTINGRELEASERATEPERDAY(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _SafePumpToken.contract.Call(opts, &out, "VESTING_RELEASE_RATE_PER_DAY")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
-}
-
-// VESTINGRELEASERATEPERDAY is a free data retrieval call binding the contract method 0x0fcbac51.
-//
-// Solidity: function VESTING_RELEASE_RATE_PER_DAY() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenSession) VESTINGRELEASERATEPERDAY() (*big.Int, error) {
-	return _SafePumpToken.Contract.VESTINGRELEASERATEPERDAY(&_SafePumpToken.CallOpts)
-}
-
-// VESTINGRELEASERATEPERDAY is a free data retrieval call binding the contract method 0x0fcbac51.
-//
-// Solidity: function VESTING_RELEASE_RATE_PER_DAY() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCallerSession) VESTINGRELEASERATEPERDAY() (*big.Int, error) {
-	return _SafePumpToken.Contract.VESTINGRELEASERATEPERDAY(&_SafePumpToken.CallOpts)
 }
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
@@ -490,37 +428,6 @@ func (_SafePumpToken *SafePumpTokenCallerSession) Factory() (common.Address, err
 	return _SafePumpToken.Contract.Factory(&_SafePumpToken.CallOpts)
 }
 
-// GetLockedCreatorAmount is a free data retrieval call binding the contract method 0x7a5123d7.
-//
-// Solidity: function getLockedCreatorAmount() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCaller) GetLockedCreatorAmount(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _SafePumpToken.contract.Call(opts, &out, "getLockedCreatorAmount")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
-}
-
-// GetLockedCreatorAmount is a free data retrieval call binding the contract method 0x7a5123d7.
-//
-// Solidity: function getLockedCreatorAmount() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenSession) GetLockedCreatorAmount() (*big.Int, error) {
-	return _SafePumpToken.Contract.GetLockedCreatorAmount(&_SafePumpToken.CallOpts)
-}
-
-// GetLockedCreatorAmount is a free data retrieval call binding the contract method 0x7a5123d7.
-//
-// Solidity: function getLockedCreatorAmount() view returns(uint256)
-func (_SafePumpToken *SafePumpTokenCallerSession) GetLockedCreatorAmount() (*big.Int, error) {
-	return _SafePumpToken.Contract.GetLockedCreatorAmount(&_SafePumpToken.CallOpts)
-}
-
 // IncubationComplete is a free data retrieval call binding the contract method 0xdf26ec01.
 //
 // Solidity: function incubationComplete() view returns(bool)
@@ -674,6 +581,37 @@ func (_SafePumpToken *SafePumpTokenSession) LaunchBlock() (*big.Int, error) {
 // Solidity: function launchBlock() view returns(uint256)
 func (_SafePumpToken *SafePumpTokenCallerSession) LaunchBlock() (*big.Int, error) {
 	return _SafePumpToken.Contract.LaunchBlock(&_SafePumpToken.CallOpts)
+}
+
+// MaxWalletLimit is a free data retrieval call binding the contract method 0x66a88d96.
+//
+// Solidity: function maxWalletLimit() view returns(uint256)
+func (_SafePumpToken *SafePumpTokenCaller) MaxWalletLimit(opts *bind.CallOpts) (*big.Int, error) {
+	var out []interface{}
+	err := _SafePumpToken.contract.Call(opts, &out, "maxWalletLimit")
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// MaxWalletLimit is a free data retrieval call binding the contract method 0x66a88d96.
+//
+// Solidity: function maxWalletLimit() view returns(uint256)
+func (_SafePumpToken *SafePumpTokenSession) MaxWalletLimit() (*big.Int, error) {
+	return _SafePumpToken.Contract.MaxWalletLimit(&_SafePumpToken.CallOpts)
+}
+
+// MaxWalletLimit is a free data retrieval call binding the contract method 0x66a88d96.
+//
+// Solidity: function maxWalletLimit() view returns(uint256)
+func (_SafePumpToken *SafePumpTokenCallerSession) MaxWalletLimit() (*big.Int, error) {
+	return _SafePumpToken.Contract.MaxWalletLimit(&_SafePumpToken.CallOpts)
 }
 
 // MigrationComplete is a free data retrieval call binding the contract method 0x2bff884f.
@@ -978,6 +916,27 @@ func (_SafePumpToken *SafePumpTokenSession) SetIncubationComplete() (*types.Tran
 // Solidity: function setIncubationComplete() returns()
 func (_SafePumpToken *SafePumpTokenTransactorSession) SetIncubationComplete() (*types.Transaction, error) {
 	return _SafePumpToken.Contract.SetIncubationComplete(&_SafePumpToken.TransactOpts)
+}
+
+// SetMaxWalletLimit is a paid mutator transaction binding the contract method 0x728d41c9.
+//
+// Solidity: function setMaxWalletLimit(uint256 newLimit) returns()
+func (_SafePumpToken *SafePumpTokenTransactor) SetMaxWalletLimit(opts *bind.TransactOpts, newLimit *big.Int) (*types.Transaction, error) {
+	return _SafePumpToken.contract.Transact(opts, "setMaxWalletLimit", newLimit)
+}
+
+// SetMaxWalletLimit is a paid mutator transaction binding the contract method 0x728d41c9.
+//
+// Solidity: function setMaxWalletLimit(uint256 newLimit) returns()
+func (_SafePumpToken *SafePumpTokenSession) SetMaxWalletLimit(newLimit *big.Int) (*types.Transaction, error) {
+	return _SafePumpToken.Contract.SetMaxWalletLimit(&_SafePumpToken.TransactOpts, newLimit)
+}
+
+// SetMaxWalletLimit is a paid mutator transaction binding the contract method 0x728d41c9.
+//
+// Solidity: function setMaxWalletLimit(uint256 newLimit) returns()
+func (_SafePumpToken *SafePumpTokenTransactorSession) SetMaxWalletLimit(newLimit *big.Int) (*types.Transaction, error) {
+	return _SafePumpToken.Contract.SetMaxWalletLimit(&_SafePumpToken.TransactOpts, newLimit)
 }
 
 // SetMigrationComplete is a paid mutator transaction binding the contract method 0xae49c6d6.

@@ -110,13 +110,6 @@
   },
   {
     "type": "function",
-    "name": "claimCreatorFees",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "claimPlatformFees",
     "inputs": [],
     "outputs": [],
@@ -157,7 +150,7 @@
         "internalType": "address"
       }
     ],
-    "stateMutability": "nonpayable"
+    "stateMutability": "payable"
   },
   {
     "type": "function",
@@ -235,25 +228,12 @@
   },
   {
     "type": "function",
-    "name": "owner",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "pendingCreatorFees",
+    "name": "getAmountOutTokensInitial",
     "inputs": [
       {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
+        "name": "ethIn",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [
@@ -261,6 +241,19 @@
         "name": "",
         "type": "uint256",
         "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "stateMutability": "view"
@@ -349,6 +342,11 @@
       },
       {
         "name": "migrated",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "hasCreatorBonus",
         "type": "bool",
         "internalType": "bool"
       }

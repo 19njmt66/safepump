@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"strings"
 	"time"
 
 	"backend/contracts"
@@ -36,6 +37,9 @@ type Indexer struct {
 	OnTokenCreated func(token database.Token)
 	OnTrade        func(trade database.Trade)
 	OnMigrated     func(token database.Token)
+
+	// Live controls whether to trigger live callbacks (only after catch-up is complete)
+	Live bool
 }
 
 // NewIndexer instantiates a new indexer connected to Base L2 RPC and database
@@ -63,6 +67,17 @@ func NewIndexer(rpcUrl string, db *gorm.DB, factoryAddrStr string, startBlock ui
 // Start begins the indexing loop
 func (idx *Indexer) Start(ctx context.Context) {
 	log.Printf("Starting block indexer for Factory at %s from block %d...", idx.factoryAddress.Hex(), idx.startBlock)
+
+	// Run initial catch-up batch silently (Live is false by default)
+	log.Println("Running initial sync catch-up with blockchain history...")
+	err := idx.processBatch(ctx)
+	if err != nil {
+		log.Println("Indexer initial catch-up execution warning:", err)
+	}
+
+	// Mark indexer as live to enable WebSockets broadcasts
+	idx.Live = true
+	log.Println("Indexer is now synced and listening for live events.")
 
 	ticker := time.NewTicker(3 * time.Second)
 	defer ticker.Stop()
@@ -105,6 +120,21 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 	currentBlock, err := idx.client.BlockNumber(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to get latest block number: %w", err)
+	}
+
+	if currentBlock < lastBlock {
+		log.Printf("WARNING: Chain reset detected! Latest block on-chain is %d, but last processed block was %d. Resetting indexer to block 0...", currentBlock, lastBlock)
+		lastBlock = 0
+		if lastBlockConfig.Key != "" {
+			lastBlockConfig.Value = "0"
+			idx.db.Save(&lastBlockConfig)
+		} else {
+			idx.db.Create(&database.SystemConfig{Key: "last_processed_block", Value: "0"})
+		}
+
+		log.Println("Clearing database tables for clean sync on chain reset...")
+		idx.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&database.Trade{})
+		idx.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&database.Token{})
 	}
 
 	if lastBlock >= currentBlock {
@@ -165,11 +195,45 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 				if err != nil {
 					return err
 				}
+				// Pick a deterministic image based on token address bytes
+				var defaultMemeImages = []string{
+					"https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1537151608828-ea2b117b6f86?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1561948955-570b270e7c36?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1472491235688-bdc81a63246e?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1507666480-1a4b9dfcd90f?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1591880911720-410d352270d1?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=300&h=300&fit=crop",
+					"https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=300&h=300&fit=crop",
+				}
+				tokenAddrHex := ev.Token.Hex()
+				imgIdx := 0
+				if len(tokenAddrHex) > 0 {
+					imgIdx = int(tokenAddrHex[len(tokenAddrHex)-1]) % len(defaultMemeImages)
+				}
+				imgUrl := defaultMemeImages[imgIdx]
+				description := fmt.Sprintf("Bienvenue sur %s ($%s). Rejoignez notre communauté de détenteurs passionnés et aidez-nous à propulser ce projet vers la lune !", ev.Name, ev.Symbol)
+				website := fmt.Sprintf("https://www.%s.io", strings.ToLower(ev.Symbol))
+				twitter := fmt.Sprintf("https://x.com/%s_coin", strings.ToLower(ev.Symbol))
+				telegram := fmt.Sprintf("https://t.me/%s_chat", strings.ToLower(ev.Symbol))
+
 				token := database.Token{
-					Address:     ev.Token.Hex(),
-					Creator:     ev.Creator.Hex(),
+					Address:     strings.ToLower(ev.Token.Hex()),
+					Creator:     strings.ToLower(ev.Creator.Hex()),
 					Name:        ev.Name,
 					Symbol:      ev.Symbol,
+					Description: description,
+					ImageUrl:    imgUrl,
+					Website:     website,
+					Twitter:     twitter,
+					Telegram:    telegram,
 					TokensSold:  "0",
 					EthRaised:   "0",
 					Migrated:    false,
@@ -177,18 +241,53 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 					CreatedAt:   blockTime,
 					UpdatedAt:   blockTime,
 				}
+
+				// Check if there was an initial buy on contract
+				caller, err := contracts.NewSafePumpFactoryCaller(idx.factoryAddress, idx.client)
+				var chainTokensSold *big.Int
+				var chainEthRaised *big.Int
+				if err == nil {
+					chainInfo, err := caller.Tokens(nil, ev.Token)
+					if err == nil {
+						token.TokensSold = chainInfo.TokensSold.String()
+						token.EthRaised = chainInfo.EthRaised.String()
+						chainTokensSold = chainInfo.TokensSold
+						chainEthRaised = chainInfo.EthRaised
+					} else {
+						log.Println("Indexer error calling Tokens on-chain:", err)
+					}
+				} else {
+					log.Println("Indexer error creating factory caller:", err)
+				}
+
+				// INSERT/UPDATE TOKEN FIRST
 				var existing database.Token
-				if err := tx.Where("address = ?", ev.Token.Hex()).First(&existing).Error; err == nil {
+				if err := tx.Where("address = ?", strings.ToLower(ev.Token.Hex())).First(&existing).Error; err == nil {
 					// Record exists! Update on-chain fields but preserve metadata description and image_url
-					existing.Creator = ev.Creator.Hex()
+					existing.Creator = strings.ToLower(ev.Creator.Hex())
 					existing.Name = ev.Name
 					existing.Symbol = ev.Symbol
-					existing.TokensSold = "0"
-					existing.EthRaised = "0"
+					existing.TokensSold = token.TokensSold
+					existing.EthRaised = token.EthRaised
 					existing.Migrated = false
 					existing.PairAddress = ""
 					existing.CreatedAt = blockTime
 					existing.UpdatedAt = blockTime
+					if existing.Description == "" {
+						existing.Description = description
+					}
+					if existing.ImageUrl == "" {
+						existing.ImageUrl = imgUrl
+					}
+					if existing.Website == "" {
+						existing.Website = website
+					}
+					if existing.Twitter == "" {
+						existing.Twitter = twitter
+					}
+					if existing.Telegram == "" {
+						existing.Telegram = telegram
+					}
 					if err := tx.Save(&existing).Error; err != nil {
 						return err
 					}
@@ -200,6 +299,31 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 					}
 					createdToken = &token
 				}
+
+				// INSERT TRADE SECOND (Safe from Foreign Key constraint!)
+				if chainTokensSold != nil && chainTokensSold.Cmp(big.NewInt(0)) > 0 {
+					var existingTrade database.Trade
+					// Try to see if this trade is already logged to prevent duplicates
+					if err := tx.Where("tx_hash = ?", strings.ToLower(l.TxHash.Hex())).First(&existingTrade).Error; err != nil {
+						t := database.Trade{
+							TokenAddress:   strings.ToLower(ev.Token.Hex()),
+							TxHash:         strings.ToLower(l.TxHash.Hex()),
+							BlockNumber:    l.BlockNumber,
+							Timestamp:      blockTime,
+							IsBuy:          true,
+							BuyerOrSeller:  strings.ToLower(ev.Creator.Hex()),
+							TokenAmount:    chainTokensSold.String(),
+							EthAmount:      chainEthRaised.String(),
+							Fee:            "0",
+							CreatedAt:      blockTime,
+						}
+						if err := tx.Create(&t).Error; err != nil {
+							return err
+						}
+						trade = &t
+						log.Printf("[Live Feed] Logged Initial Buy for Creator during creation: Token=%s Creator=%s ETH=%s Tokens=%s", token.Address, token.Creator, token.EthRaised, token.TokensSold)
+					}
+				}
 				return nil
 
 			case TopicBuy:
@@ -208,12 +332,12 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 					return err
 				}
 				t := database.Trade{
-					TokenAddress:  ev.Token.Hex(),
-					TxHash:        l.TxHash.Hex(),
+					TokenAddress:  strings.ToLower(ev.Token.Hex()),
+					TxHash:        strings.ToLower(l.TxHash.Hex()),
 					BlockNumber:   l.BlockNumber,
 					Timestamp:     blockTime,
 					IsBuy:         true,
-					BuyerOrSeller: ev.Buyer.Hex(),
+					BuyerOrSeller: strings.ToLower(ev.Buyer.Hex()),
 					TokenAmount:   ev.TokenAmount.String(),
 					EthAmount:     ev.EthAmount.String(),
 					Fee:           ev.Fee.String(),
@@ -224,7 +348,7 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 				}
 
 				var token database.Token
-				if err := tx.Where("address = ?", ev.Token.Hex()).First(&token).Error; err != nil {
+				if err := tx.Where("address = ?", strings.ToLower(ev.Token.Hex())).First(&token).Error; err != nil {
 					return err
 				}
 
@@ -250,12 +374,12 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 					return err
 				}
 				t := database.Trade{
-					TokenAddress:  ev.Token.Hex(),
-					TxHash:        l.TxHash.Hex(),
+					TokenAddress:  strings.ToLower(ev.Token.Hex()),
+					TxHash:        strings.ToLower(l.TxHash.Hex()),
 					BlockNumber:   l.BlockNumber,
 					Timestamp:     blockTime,
 					IsBuy:         false,
-					BuyerOrSeller: ev.Seller.Hex(),
+					BuyerOrSeller: strings.ToLower(ev.Seller.Hex()),
 					TokenAmount:   ev.TokenAmount.String(),
 					EthAmount:     ev.EthAmount.String(),
 					Fee:           ev.Fee.String(),
@@ -266,7 +390,7 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 				}
 
 				var token database.Token
-				if err := tx.Where("address = ?", ev.Token.Hex()).First(&token).Error; err != nil {
+				if err := tx.Where("address = ?", strings.ToLower(ev.Token.Hex())).First(&token).Error; err != nil {
 					return err
 				}
 
@@ -293,12 +417,12 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 				}
 
 				var token database.Token
-				if err := tx.Where("address = ?", ev.Token.Hex()).First(&token).Error; err != nil {
+				if err := tx.Where("address = ?", strings.ToLower(ev.Token.Hex())).First(&token).Error; err != nil {
 					return err
 				}
 
 				token.Migrated = true
-				token.PairAddress = ev.Pair.Hex()
+				token.PairAddress = strings.ToLower(ev.Pair.Hex())
 				token.UpdatedAt = blockTime
 
 				if err := tx.Save(&token).Error; err != nil {
@@ -314,15 +438,17 @@ func (idx *Indexer) processBatch(ctx context.Context) error {
 			return fmt.Errorf("transaction execution failed for tx %s: %w", l.TxHash.Hex(), err)
 		}
 
-		// Trigger callbacks after successful transaction commit
-		if createdToken != nil && idx.OnTokenCreated != nil {
-			idx.OnTokenCreated(*createdToken)
-		}
-		if trade != nil && idx.OnTrade != nil {
-			idx.OnTrade(*trade)
-		}
-		if migratedToken != nil && idx.OnMigrated != nil {
-			idx.OnMigrated(*migratedToken)
+		// Trigger callbacks after successful transaction commit if indexer is live
+		if idx.Live {
+			if createdToken != nil && idx.OnTokenCreated != nil {
+				idx.OnTokenCreated(*createdToken)
+			}
+			if trade != nil && idx.OnTrade != nil {
+				idx.OnTrade(*trade)
+			}
+			if migratedToken != nil && idx.OnMigrated != nil {
+				idx.OnMigrated(*migratedToken)
+			}
 		}
 	}
 

@@ -27,3 +27,11 @@ safepump-backend
 backend/backend
 backend/safepump-backend
 backend/api/api
+
+# Local test & uploads
+backend/test_bin
+backend/uploads/
+scratch/
+broadcast/
+anvil.log
+

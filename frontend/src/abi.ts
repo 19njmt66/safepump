@@ -6,7 +6,7 @@ export const SafePumpFactoryABI = [
     ],
     "name": "createToken",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {

@@ -106,20 +106,24 @@ contract SafePumpTest is Test {
         factory = new SafePumpFactory(address(router), feeRecipient, owner);
     }
 
-    // Helper to complete the incubation phase (>= 20% progress)
+    // Helper to complete the incubation phase (>= 20% progress = 160M tokens sold)
     function _completeIncubation() internal {
+        // Under 5 ETH curve:
+        // A buy of 0.015 ETH is under the 2% limit (buys ~14M tokens)
+        // 30 buys of 0.015 ETH = 0.45 ETH, which is enough to reach 20% progress (requires 0.2 ETH)
         for (uint256 i = 0; i < 30; i++) {
             address user = address(uint160(200 + i));
             vm.deal(user, 10 ether);
             vm.roll(block.number + 1);
             vm.prank(user);
-            factory.buy{value: 0.03 ether}(tokenAddress);
+            factory.buy{value: 0.015 ether}(tokenAddress);
         }
         assertTrue(token.incubationComplete());
     }
 
     function test_createToken() public {
         vm.prank(creator);
+        // Default deployment without initial buy
         tokenAddress = factory.createToken("SafePump Coin", "SPC");
         token = SafePumpToken(payable(tokenAddress));
 
@@ -128,32 +132,50 @@ contract SafePumpTest is Test {
         assertEq(token.creator(), creator);
         assertEq(token.factory(), address(factory));
         
-        // Creator gets 50,000,000 tokens (5%)
-        assertEq(token.balanceOf(creator), 50_000_000 * 10**18);
+        // Creator gets 0 tokens
+        assertEq(token.balanceOf(creator), 0);
         
-        // Factory holds the rest of total supply (950,000,000 tokens)
+        // Factory holds the entire total supply (1,000,000,000 tokens)
+        assertEq(token.balanceOf(address(factory)), 1_000_000_000 * 10**18);
+    }
+
+    function test_createTokenWithBonus() public {
+        vm.prank(creator);
+        // Deploy with creator bonus buy (0.02127 ether)
+        tokenAddress = factory.createToken{value: 0.02127 ether}("SafePump Coin", "SPC");
+        token = SafePumpToken(payable(tokenAddress));
+
+        // Creator gets 50,000,000 tokens (5% bonus allocation)
+        assertEq(token.balanceOf(creator), 50_000_000 * 10**18);
+
+        // Factory holds 950,000,000 tokens
         assertEq(token.balanceOf(address(factory)), 950_000_000 * 10**18);
+
+        // Verify state
+        (,,,, bool migrated, bool hasBonus) = factory.tokens(tokenAddress);
+        assertFalse(migrated);
+        assertTrue(hasBonus);
     }
 
     function test_launchBlockCooldown() public {
         vm.prank(creator);
         tokenAddress = factory.createToken("SafePump Coin", "SPC");
 
-        // First buy in current block succeeds (using small amount to stay under 1.5% max wallet)
+        // First buy in current block succeeds (using small amount to stay under 2% max wallet)
         vm.prank(buyer1);
-        factory.buy{value: 0.03 ether}(tokenAddress);
+        factory.buy{value: 0.015 ether}(tokenAddress);
 
         // Second buy in the same block reverts
         vm.prank(buyer2);
         vm.expectRevert("SafePump: One buy per block limit active");
-        factory.buy{value: 0.03 ether}(tokenAddress);
+        factory.buy{value: 0.015 ether}(tokenAddress);
 
         // Move to next block
         vm.roll(block.number + 1);
 
         // Next block buy succeeds
         vm.prank(buyer2);
-        factory.buy{value: 0.03 ether}(tokenAddress);
+        factory.buy{value: 0.015 ether}(tokenAddress);
     }
 
     function test_maxWalletLimit() public {
@@ -161,18 +183,16 @@ contract SafePumpTest is Test {
         tokenAddress = factory.createToken("SafePump Coin", "SPC");
         token = SafePumpToken(payable(tokenAddress));
 
-        // 0.03 ETH buy:
-        // netEth = 0.03 * 0.99 = 0.0297 ETH
-        // tokens = 941,176,470 * 0.0297 / 3.0297 = 9.22M tokens (under 15M limit)
+        // 0.015 ETH buy gets ~14M tokens (under 2% = 20M limit)
         vm.prank(buyer1);
-        factory.buy{value: 0.03 ether}(tokenAddress);
+        factory.buy{value: 0.015 ether}(tokenAddress);
         assertTrue(token.balanceOf(buyer1) > 0);
 
-        // Another buy by buyer1 that crosses the 15M limit
+        // Another buy by buyer1 in the next block that crosses the 2% limit
         vm.roll(block.number + 1);
         vm.prank(buyer1);
-        vm.expectRevert("SafePump: Exceeds max wallet limit (1.5%)");
-        factory.buy{value: 0.03 ether}(tokenAddress); // 9.2M + 9.2M = 18.4M (exceeds 15M)
+        vm.expectRevert("SafePump: Exceeds max wallet limit (2%)");
+        factory.buy{value: 0.015 ether}(tokenAddress); // 14M + 13.8M = 27.8M (exceeds 20M)
     }
 
     function test_incubationCompletion() public {
@@ -186,7 +206,7 @@ contract SafePumpTest is Test {
         vm.roll(block.number + 1);
         vm.prank(buyer1);
         factory.buy{value: 1 ether}(tokenAddress);
-        assertTrue(token.balanceOf(buyer1) > 15_000_000 * 10**18); // holds > 1.5% supply
+        assertTrue(token.balanceOf(buyer1) > 20_000_000 * 10**18); // holds > 2% supply
     }
 
     function test_sellLimit() public {
@@ -197,7 +217,7 @@ contract SafePumpTest is Test {
         // Complete incubation so max wallet limit is disabled
         _completeIncubation();
 
-        // Roll block beyond launch block cooldown (launch block + 10)
+        // Roll block beyond launch block cooldown
         vm.roll(block.number + 10);
 
         // Simulate providing tokens to buyer1 from Factory (Factory is excluded from sell limits)
@@ -226,92 +246,39 @@ contract SafePumpTest is Test {
         token.transfer(buyer2, 10_000_000 * 10**18);
     }
 
-    function test_creatorVesting() public {
+    function test_creatorBonusAndLP() public {
+        // Creator deploys with 0.02127 ether to activate the 5% bonus
         vm.prank(creator);
-        tokenAddress = factory.createToken("SafePump Coin", "SPC");
+        tokenAddress = factory.createToken{value: 0.02127 ether}("SafePump Coin", "SPC");
         token = SafePumpToken(payable(tokenAddress));
 
-        // 1. Pre-migration: Creator cannot transfer any vested tokens (reverts since lockedAmount = 50M)
-        vm.prank(creator);
-        vm.expectRevert("SafePump: Vesting locked");
-        token.transfer(buyer1, 1);
+        uint256 creatorBalanceBeforeMigration = creator.balance;
 
-        // 2. Complete incubation phase so max wallet limit is disabled for buyer1
+        // Complete incubation
         _completeIncubation();
 
-        // 3. buyer1 completes bonding curve to migrate (since max wallet is disabled, they can buy everything)
-        vm.deal(buyer1, 20 ether);
+        // Buy remaining tokens to trigger migration
+        // Curve requires 5 ETH total.
+        // We've already raised: 0.02127 ETH (creator) + 30 * 0.015 ETH (incubation) = 0.47127 ETH
+        // Remaining needed: 5.00 - 0.47127 = 4.52873 ETH
+        // Buy with 4.6 ETH to easily trigger completion (excess will be refunded)
+        vm.deal(buyer1, 10 ether);
         vm.roll(block.number + 1);
         vm.prank(buyer1);
-        factory.buy{value: 18 ether}(tokenAddress);
+        factory.buy{value: 4.6 ether}(tokenAddress);
 
         assertTrue(token.migrationComplete());
-        uint256 migrationTime = token.migrationTime();
 
-        // Creator's balance is exactly their 50M vested allocation!
-        assertEq(token.balanceOf(creator), 50_000_000 * 10**18);
+        // Verify creator received 0 refund (since refund is removed)
+        assertEq(creator.balance - creatorBalanceBeforeMigration, 0, "Creator should not get a refund");
 
-        // 4. Post-migration: Creator still cannot transfer immediately (cooldown 48h active)
-        vm.prank(creator);
-        vm.expectRevert("SafePump: Vesting locked");
-        token.transfer(buyer2, 1);
+        // Verify Uniswap LP receives the exact mathematically calculated WETH (5 ETH - creator bonus curve impact)
+        address wethAddress = router.WETH();
+        address pair = MockUniswapV2Factory(uniFactory).getPair(tokenAddress, wethAddress);
+        assertEq(MockWETH(wethAddress).balanceOf(pair), 4.808473125 ether, "LP ETH balance mismatch");
 
-        // Warp to 48 hours post-migration
-        vm.warp(migrationTime + 48 hours);
-
-        // Day 0: 0 tokens unlocked. Still reverts
-        vm.prank(creator);
-        vm.expectRevert("SafePump: Vesting locked");
-        token.transfer(buyer2, 1);
-
-        // Warp to 48 hours + 1 day
-        vm.warp(migrationTime + 48 hours + 1 days);
-
-        // Day 1: 1,000,000 tokens unlocked. Let's transfer 500,000 (succeeds)
-        vm.prank(creator);
-        token.transfer(buyer2, 500_000 * 10**18);
-        assertEq(token.balanceOf(buyer2), 500_000 * 10**18);
-
-        // Transferring another 600,000 reverts (total 1.1M > 1M unlocked)
-        vm.prank(creator);
-        vm.expectRevert("SafePump: Vesting locked");
-        token.transfer(buyer2, 600_000 * 10**18);
-
-        // Warp to 48 hours + 50 days (full unlock)
-        vm.warp(migrationTime + 48 hours + 50 days);
-
-        // Creator transfers 15,000,000 tokens (succeeds, under 2% = 20M limit)
-        vm.prank(creator);
-        token.transfer(buyer2, 15_000_000 * 10**18);
-
-        // Creator transfers another 15,000,000 in the same day (fails with sell limit)
-        vm.prank(creator);
-        vm.expectRevert("SafePump: Exceeds 24h sell limit (2%)");
-        token.transfer(buyer2, 15_000_000 * 10**18);
-
-        // Skip 1 day
-        skip(1 days + 1);
-
-        // Creator transfers another 15,000,000 (succeeds)
-        vm.prank(creator);
-        token.transfer(buyer2, 15_000_000 * 10**18);
-
-        // Skip 1 day
-        skip(1 days + 1);
-
-        // Creator transfers another 15,000,000 (succeeds)
-        vm.prank(creator);
-        token.transfer(buyer2, 15_000_000 * 10**18);
-
-        // Skip 1 day
-        skip(1 days + 1);
-
-        // Creator transfers the remaining 4,500,000 (succeeds)
-        uint256 remaining = token.balanceOf(creator);
-        vm.prank(creator);
-        token.transfer(buyer2, remaining);
-        
-        assertEq(token.balanceOf(creator), 0);
+        // Verify Uniswap LP receives 20% of tokens (200,000,000)
+        assertEq(token.balanceOf(pair), 200_000_000 * 10**18, "LP token balance mismatch");
     }
 
     function test_financialMechanisms() public {
@@ -320,56 +287,48 @@ contract SafePumpTest is Test {
         tokenAddress = factory.createToken("SafePump Coin", "SPC");
         token = SafePumpToken(payable(tokenAddress));
 
-        // Complete incubation phase to lift the 1.5% max wallet limit
+        // Complete incubation phase to lift the 2% max wallet limit
         _completeIncubation();
 
         uint256 initTokensSold;
         uint256 initEthRaised;
         {
-            (,, uint256 ts, uint256 er, ) = factory.tokens(tokenAddress);
+            (,, uint256 ts, uint256 er,, ) = factory.tokens(tokenAddress);
             initTokensSold = ts;
             initEthRaised = er;
         }
 
         uint256 tokensBought;
         
-        // 2. Perform a buy swap from buyer1 of 0.05 ETH
+        // 2. Perform a buy swap from buyer1 of 0.04 ETH (keeps bought tokens under 2% sell limit)
         {
             uint256 initCreatorBalance = creator.balance;
             uint256 initFeeRecipientBalance = feeRecipient.balance;
 
             vm.prank(buyer1);
-            factory.buy{value: 0.05 ether}(tokenAddress);
+            factory.buy{value: 0.04 ether}(tokenAddress);
 
-            // Verify balances after buy (1% fee = 0.0005 ether, 40% creator = 0.0002, 60% platform = 0.0003)
-            assertEq(creator.balance - initCreatorBalance, 0.0002 ether, "Creator share on buy mismatch");
-            assertEq(feeRecipient.balance - initFeeRecipientBalance, 0.0003 ether, "Platform share on buy mismatch");
+            // Verify balances after buy (1% fee = 0.0004 ether, 100% to platform feeRecipient)
+            assertEq(creator.balance - initCreatorBalance, 0, "Creator should get 0 fees");
+            assertEq(feeRecipient.balance - initFeeRecipientBalance, 0.0004 ether, "Platform fee recipient fee mismatch");
 
-            (,, uint256 ts, uint256 er, ) = factory.tokens(tokenAddress);
-            assertEq(er - initEthRaised, 0.0495 ether, "ETH raised mismatch on buy");
+            (,, uint256 ts, uint256 er,, ) = factory.tokens(tokenAddress);
+            assertEq(er - initEthRaised, 0.0396 ether, "ETH raised mismatch on buy");
             tokensBought = ts - initTokensSold;
         }
 
         // 3. Perform a sell swap from buyer1
-        // To sell, we first need to roll the block since we bought in this block (cooldown)
         vm.roll(block.number + 1);
 
         {
-            // Expected gross ETH output calculation
             uint256 expectedEthOut = factory.getAmountOutEth(tokenAddress, tokensBought);
-            // Fee on sell is 1% of expectedEthOut: expectedEthOut / 100
             uint256 sellFee = expectedEthOut / 100;
             uint256 expectedEthToUser = expectedEthOut - sellFee;
-            
-            uint256 creatorShareSell = (sellFee * 40) / 100;
-            uint256 platformShareSell = sellFee - creatorShareSell;
 
-            // Save balances before sell
             uint256 balCreatorBeforeSell = creator.balance;
             uint256 balFeeRecipientBeforeSell = feeRecipient.balance;
             uint256 balBuyerBeforeSell = buyer1.balance;
 
-            // Approve and sell
             vm.prank(buyer1);
             token.approve(address(factory), tokensBought);
             
@@ -377,8 +336,8 @@ contract SafePumpTest is Test {
             factory.sell(tokenAddress, tokensBought);
 
             // Verify fee distribution on sell
-            assertEq(creator.balance - balCreatorBeforeSell, creatorShareSell, "Creator share on sell mismatch");
-            assertEq(feeRecipient.balance - balFeeRecipientBeforeSell, platformShareSell, "Platform share on sell mismatch");
+            assertEq(creator.balance - balCreatorBeforeSell, 0, "Creator should get 0 fees on sell");
+            assertEq(feeRecipient.balance - balFeeRecipientBeforeSell, sellFee, "Platform should get 100% fees on sell");
             
             // Verify buyer received net ETH
             assertEq(buyer1.balance - balBuyerBeforeSell, expectedEthToUser, "Buyer net ETH output mismatch");
@@ -386,7 +345,7 @@ contract SafePumpTest is Test {
 
         // Verify factory token state is reset to incubation state (with 1 wei tolerance for rounding)
         {
-            (,, uint256 tokensSoldAfter, uint256 ethRaisedAfter, ) = factory.tokens(tokenAddress);
+            (,, uint256 tokensSoldAfter, uint256 ethRaisedAfter,, ) = factory.tokens(tokenAddress);
             assertApproxEqAbs(tokensSoldAfter, initTokensSold, 1, "Tokens sold mismatch after sell");
             assertApproxEqAbs(ethRaisedAfter, initEthRaised, 1, "ETH raised mismatch after sell");
         }

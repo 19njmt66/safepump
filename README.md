@@ -15,11 +15,11 @@ Le protocole applique des règles strictes inscrites en dur dans le smart contra
 1. **Anti-Honeypot :** Token standardisé ERC-20 immuable, sans propriétaire (*no owner*), sans liste noire (*no blacklist*), et sans taxe modifiable.
 2. **Anti-LP Rugpull :** Les jetons de liquidité (LP) générés lors de la migration automatique sur Uniswap V2 sont **brûlés instantanément** dans la même transaction blockchain.
 3. **Limite de Portefeuille Dynamique (Anti-Sybil & Anti-Bundle) :** 
-   - *Phase de Lancement (10 premiers blocs) :* Un seul achat par bloc est autorisé à l'échelle globale du contrat + limite stricte de **1,5% de la supply max par portefeuille** (empêche le bundling à bas coût par le dev).
-   - *Phase d'Incubation (0% à 20% de progression de la courbe) :* La limite de **1,5% max par portefeuille** reste active pour forcer une distribution saine de départ.
-   - *Phase de Croissance (20% à 100% de progression) :* La limite est désactivée (ou élevée à 10%) pour permettre aux whales et degens d'acheter de plus grosses positions une fois le lancement validé comme organique.
+   - *Phase de Lancement (10 premiers blocs) :* Un seul achat par bloc est autorisé à l'échelle globale du contrat + limite stricte de **2% de la supply max par portefeuille** (empêche le bundling à bas coût par le dev).
+   - *Phase d'Incubation (0% à 20% de progression de la courbe) :* La limite de **2% max par portefeuille** reste active pour forcer une distribution saine de départ.
+   - *Phase de Croissance (20% à 100% de progression) :* La limite est désactivée pour permettre aux whales et degens d'acheter de plus grosses positions une fois le lancement validé comme organique.
    - *Post-Migration (Uniswap V2) :* Toutes les limites de détention sont définitivement désactivées pour le trading libre.
-4. **Vesting obligatoire du Créateur :** Le développeur reçoit une part fixe de **5% de la supply gratuitement**, mais elle est **verrouillée par le contrat** et se débloque progressivement (0.1% par jour) à partir de 48 heures après la migration.
+4. **Avantage Créateur (Pack 5%) :** Le créateur du projet peut activer un bonus de **5% de la supply au lancement** en payant **0,02127 ETH** (environ 60 $). S'il ne l'active pas, il reçoit 0% de bonus gratuit, et le public achète ces 5% sur la courbe.
 5. **Anti-Panic Dump (Sell Limit) :** Aucun portefeuille (hors DEX) ne peut vendre plus de **2% de la supply totale par tranche de 24h**, lissant les baisses et évitant les crashs à -99%.
 
 ---
@@ -27,12 +27,11 @@ Le protocole applique des règles strictes inscrites en dur dans le smart contra
 ## 💸 3. Modèle Économique & Incitations
 
 ### A. Pour le Créateur (Honnêteté Rentable)
-* **Revenus Passifs de Trading (Fee Share) :** Le créateur reçoit **40% de tous les frais de transaction de 1%** collectés par la plateforme sur son token. S'il génère du volume, il gagne des revenus réguliers, rendant l'honnêteté plus rentable que le rug.
 * **Allocation de 5% Gratuite :** Ses jetons de créateur sont transparents, légitimes et verrouillés.
 * **Bonus de Graduation :** Un bonus fixe en ETH (ex: 0.02 ETH) lui est versé automatiquement lors de la migration vers Uniswap.
 
 ### B. Pour la Plateforme (Tes Revenus)
-* **60% des Frais de Trading :** Tu conserves la part majoritaire des taxes de transactions sur la courbe.
+* **100% des Frais de Trading :** Tu conserves l'intégralité (100%) des taxes de transactions de 1% collectées sur la courbe de liaison.
 * **Frais de Migration :** Une taxe fixe (ex: 0.03 ETH) prélevée sur le pool lors de la graduation.
 * **Espaces Publicitaires (Trending Slots) :** Vente d'emplacements sponsorisés sur la page d'accueil (ex: 0.05 ETH / jour).
 
@@ -92,5 +91,5 @@ Pour opérer la plateforme en toute sécurité sans subir de poursuites judiciai
 ---
 
 ## 🚀 Prochaines Étapes
-1. Écriture du smart contract Solidity du token ERC-20 (`SafePumpToken.sol`) intégrant les règles de transfert (limites 2%/24h, 1.5% max wallet, block cooldown).
+1. Écriture du smart contract Solidity du token ERC-20 (`SafePumpToken.sol`) intégrant les règles de transfert (limites 2%/24h, 2% max wallet, block cooldown).
 2. Développement du contrat Factory (`SafePumpFactory.sol`) qui déploie ces tokens, gère la courbe de liaison et effectue la migration automatique + burn de LP.

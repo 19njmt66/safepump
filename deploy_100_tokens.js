@@ -13,7 +13,7 @@ const nouns = [
   "Milady", "Wojak", "Chad", "Nyan", "Keyboard", "GigaChad", "Moon", "Toad", "Banana", "Hamster"
 ];
 
-const factoryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const factoryAddress = "0x9a676e781a523b5d0c0e43731313a708cb607508";
 const rpcUrl = "http://127.0.0.1:8545";
 const mnemonic = "test test test test test test test test test test test junk";
 

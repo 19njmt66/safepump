@@ -22,19 +22,6 @@
   },
   {
     "type": "function",
-    "name": "CREATOR_ALLOCATION",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "MAX_WALLET_LIMIT",
     "inputs": [],
     "outputs": [
@@ -62,19 +49,6 @@
   {
     "type": "function",
     "name": "TOTAL_SUPPLY",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "VESTING_RELEASE_RATE_PER_DAY",
     "inputs": [],
     "outputs": [
       {
@@ -193,19 +167,6 @@
   },
   {
     "type": "function",
-    "name": "getLockedCreatorAmount",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "incubationComplete",
     "inputs": [],
     "outputs": [
@@ -283,6 +244,19 @@
   },
   {
     "type": "function",
+    "name": "maxWalletLimit",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "migrationComplete",
     "inputs": [],
     "outputs": [
@@ -348,6 +322,19 @@
     "type": "function",
     "name": "setIncubationComplete",
     "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setMaxWalletLimit",
+    "inputs": [
+      {
+        "name": "newLimit",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
     "outputs": [],
     "stateMutability": "nonpayable"
   },

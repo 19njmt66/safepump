@@ -31,7 +31,7 @@ var (
 
 // SafePumpFactoryMetaData contains all meta data concerning the SafePumpFactory contract.
 var SafePumpFactoryMetaData = &bind.MetaData{
-	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_uniswapV2Router\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_feeRecipient\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_initialOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"receive\",\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"INITIAL_VIRTUAL_ETH_RESERVES\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"INITIAL_VIRTUAL_TOKEN_RESERVES\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"MAX_BONDING_CURVE_TOKENS\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"TARGET_ETH_RAISED\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"allTokens\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"buy\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"claimCreatorFees\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"claimPlatformFees\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"claimablePlatformFees\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"createToken\",\"inputs\":[{\"name\":\"name\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"internalType\":\"string\"}],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"feeRecipient\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAllTokens\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address[]\",\"internalType\":\"address[]\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAmountOutEth\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokensIn\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAmountOutTokens\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"ethIn\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"owner\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"pendingCreatorFees\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"renounceOwnership\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"sell\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFeeRecipient\",\"inputs\":[{\"name\":\"_feeRecipient\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setUniswapV2Router\",\"inputs\":[{\"name\":\"_router\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"tokens\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"creator\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokensSold\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"ethRaised\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"migrated\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transferOwnership\",\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"uniswapV2Router\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"event\",\"name\":\"Buy\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"buyer\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"fee\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Migrated\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"pair\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"OwnershipTransferred\",\"inputs\":[{\"name\":\"previousOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Sell\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"seller\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"fee\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TokenCreated\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"creator\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"name\",\"type\":\"string\",\"indexed\":false,\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"indexed\":false,\"internalType\":\"string\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"OwnableInvalidOwner\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"OwnableUnauthorizedAccount\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}]}]",
+	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_uniswapV2Router\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_feeRecipient\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_initialOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"receive\",\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"INITIAL_VIRTUAL_ETH_RESERVES\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"INITIAL_VIRTUAL_TOKEN_RESERVES\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"MAX_BONDING_CURVE_TOKENS\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"TARGET_ETH_RAISED\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"allTokens\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"buy\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"claimPlatformFees\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"claimablePlatformFees\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"createToken\",\"inputs\":[{\"name\":\"name\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"internalType\":\"string\"}],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"feeRecipient\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAllTokens\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address[]\",\"internalType\":\"address[]\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAmountOutEth\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokensIn\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAmountOutTokens\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"ethIn\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getAmountOutTokensInitial\",\"inputs\":[{\"name\":\"ethIn\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"pure\"},{\"type\":\"function\",\"name\":\"owner\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"renounceOwnership\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"sell\",\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFeeRecipient\",\"inputs\":[{\"name\":\"_feeRecipient\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setUniswapV2Router\",\"inputs\":[{\"name\":\"_router\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"tokens\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"creator\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"tokensSold\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"ethRaised\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"migrated\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"hasCreatorBonus\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"transferOwnership\",\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"uniswapV2Router\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"event\",\"name\":\"Buy\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"buyer\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"fee\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Migrated\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"pair\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"OwnershipTransferred\",\"inputs\":[{\"name\":\"previousOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newOwner\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Sell\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"seller\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"ethAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"fee\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"TokenCreated\",\"inputs\":[{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"creator\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"name\",\"type\":\"string\",\"indexed\":false,\"internalType\":\"string\"},{\"name\":\"symbol\",\"type\":\"string\",\"indexed\":false,\"internalType\":\"string\"}],\"anonymous\":false},{\"type\":\"error\",\"name\":\"OwnableInvalidOwner\",\"inputs\":[{\"name\":\"owner\",\"type\":\"address\",\"internalType\":\"address\"}]},{\"type\":\"error\",\"name\":\"OwnableUnauthorizedAccount\",\"inputs\":[{\"name\":\"account\",\"type\":\"address\",\"internalType\":\"address\"}]}]",
 }
 
 // SafePumpFactoryABI is the input ABI used to generate the binding from.
@@ -490,6 +490,37 @@ func (_SafePumpFactory *SafePumpFactoryCallerSession) GetAmountOutTokens(tokenAd
 	return _SafePumpFactory.Contract.GetAmountOutTokens(&_SafePumpFactory.CallOpts, tokenAddress, ethIn)
 }
 
+// GetAmountOutTokensInitial is a free data retrieval call binding the contract method 0xfb8b003c.
+//
+// Solidity: function getAmountOutTokensInitial(uint256 ethIn) pure returns(uint256)
+func (_SafePumpFactory *SafePumpFactoryCaller) GetAmountOutTokensInitial(opts *bind.CallOpts, ethIn *big.Int) (*big.Int, error) {
+	var out []interface{}
+	err := _SafePumpFactory.contract.Call(opts, &out, "getAmountOutTokensInitial", ethIn)
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// GetAmountOutTokensInitial is a free data retrieval call binding the contract method 0xfb8b003c.
+//
+// Solidity: function getAmountOutTokensInitial(uint256 ethIn) pure returns(uint256)
+func (_SafePumpFactory *SafePumpFactorySession) GetAmountOutTokensInitial(ethIn *big.Int) (*big.Int, error) {
+	return _SafePumpFactory.Contract.GetAmountOutTokensInitial(&_SafePumpFactory.CallOpts, ethIn)
+}
+
+// GetAmountOutTokensInitial is a free data retrieval call binding the contract method 0xfb8b003c.
+//
+// Solidity: function getAmountOutTokensInitial(uint256 ethIn) pure returns(uint256)
+func (_SafePumpFactory *SafePumpFactoryCallerSession) GetAmountOutTokensInitial(ethIn *big.Int) (*big.Int, error) {
+	return _SafePumpFactory.Contract.GetAmountOutTokensInitial(&_SafePumpFactory.CallOpts, ethIn)
+}
+
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
 //
 // Solidity: function owner() view returns(address)
@@ -521,56 +552,27 @@ func (_SafePumpFactory *SafePumpFactoryCallerSession) Owner() (common.Address, e
 	return _SafePumpFactory.Contract.Owner(&_SafePumpFactory.CallOpts)
 }
 
-// PendingCreatorFees is a free data retrieval call binding the contract method 0xc598b2f9.
-//
-// Solidity: function pendingCreatorFees(address ) view returns(uint256)
-func (_SafePumpFactory *SafePumpFactoryCaller) PendingCreatorFees(opts *bind.CallOpts, arg0 common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _SafePumpFactory.contract.Call(opts, &out, "pendingCreatorFees", arg0)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
-}
-
-// PendingCreatorFees is a free data retrieval call binding the contract method 0xc598b2f9.
-//
-// Solidity: function pendingCreatorFees(address ) view returns(uint256)
-func (_SafePumpFactory *SafePumpFactorySession) PendingCreatorFees(arg0 common.Address) (*big.Int, error) {
-	return _SafePumpFactory.Contract.PendingCreatorFees(&_SafePumpFactory.CallOpts, arg0)
-}
-
-// PendingCreatorFees is a free data retrieval call binding the contract method 0xc598b2f9.
-//
-// Solidity: function pendingCreatorFees(address ) view returns(uint256)
-func (_SafePumpFactory *SafePumpFactoryCallerSession) PendingCreatorFees(arg0 common.Address) (*big.Int, error) {
-	return _SafePumpFactory.Contract.PendingCreatorFees(&_SafePumpFactory.CallOpts, arg0)
-}
-
 // Tokens is a free data retrieval call binding the contract method 0xe4860339.
 //
-// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated)
+// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated, bool hasCreatorBonus)
 func (_SafePumpFactory *SafePumpFactoryCaller) Tokens(opts *bind.CallOpts, arg0 common.Address) (struct {
-	TokenAddress common.Address
-	Creator      common.Address
-	TokensSold   *big.Int
-	EthRaised    *big.Int
-	Migrated     bool
+	TokenAddress    common.Address
+	Creator         common.Address
+	TokensSold      *big.Int
+	EthRaised       *big.Int
+	Migrated        bool
+	HasCreatorBonus bool
 }, error) {
 	var out []interface{}
 	err := _SafePumpFactory.contract.Call(opts, &out, "tokens", arg0)
 
 	outstruct := new(struct {
-		TokenAddress common.Address
-		Creator      common.Address
-		TokensSold   *big.Int
-		EthRaised    *big.Int
-		Migrated     bool
+		TokenAddress    common.Address
+		Creator         common.Address
+		TokensSold      *big.Int
+		EthRaised       *big.Int
+		Migrated        bool
+		HasCreatorBonus bool
 	})
 	if err != nil {
 		return *outstruct, err
@@ -581,6 +583,7 @@ func (_SafePumpFactory *SafePumpFactoryCaller) Tokens(opts *bind.CallOpts, arg0 
 	outstruct.TokensSold = *abi.ConvertType(out[2], new(*big.Int)).(**big.Int)
 	outstruct.EthRaised = *abi.ConvertType(out[3], new(*big.Int)).(**big.Int)
 	outstruct.Migrated = *abi.ConvertType(out[4], new(bool)).(*bool)
+	outstruct.HasCreatorBonus = *abi.ConvertType(out[5], new(bool)).(*bool)
 
 	return *outstruct, err
 
@@ -588,26 +591,28 @@ func (_SafePumpFactory *SafePumpFactoryCaller) Tokens(opts *bind.CallOpts, arg0 
 
 // Tokens is a free data retrieval call binding the contract method 0xe4860339.
 //
-// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated)
+// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated, bool hasCreatorBonus)
 func (_SafePumpFactory *SafePumpFactorySession) Tokens(arg0 common.Address) (struct {
-	TokenAddress common.Address
-	Creator      common.Address
-	TokensSold   *big.Int
-	EthRaised    *big.Int
-	Migrated     bool
+	TokenAddress    common.Address
+	Creator         common.Address
+	TokensSold      *big.Int
+	EthRaised       *big.Int
+	Migrated        bool
+	HasCreatorBonus bool
 }, error) {
 	return _SafePumpFactory.Contract.Tokens(&_SafePumpFactory.CallOpts, arg0)
 }
 
 // Tokens is a free data retrieval call binding the contract method 0xe4860339.
 //
-// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated)
+// Solidity: function tokens(address ) view returns(address tokenAddress, address creator, uint256 tokensSold, uint256 ethRaised, bool migrated, bool hasCreatorBonus)
 func (_SafePumpFactory *SafePumpFactoryCallerSession) Tokens(arg0 common.Address) (struct {
-	TokenAddress common.Address
-	Creator      common.Address
-	TokensSold   *big.Int
-	EthRaised    *big.Int
-	Migrated     bool
+	TokenAddress    common.Address
+	Creator         common.Address
+	TokensSold      *big.Int
+	EthRaised       *big.Int
+	Migrated        bool
+	HasCreatorBonus bool
 }, error) {
 	return _SafePumpFactory.Contract.Tokens(&_SafePumpFactory.CallOpts, arg0)
 }
@@ -664,27 +669,6 @@ func (_SafePumpFactory *SafePumpFactoryTransactorSession) Buy(tokenAddress commo
 	return _SafePumpFactory.Contract.Buy(&_SafePumpFactory.TransactOpts, tokenAddress)
 }
 
-// ClaimCreatorFees is a paid mutator transaction binding the contract method 0x351fee46.
-//
-// Solidity: function claimCreatorFees() returns()
-func (_SafePumpFactory *SafePumpFactoryTransactor) ClaimCreatorFees(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _SafePumpFactory.contract.Transact(opts, "claimCreatorFees")
-}
-
-// ClaimCreatorFees is a paid mutator transaction binding the contract method 0x351fee46.
-//
-// Solidity: function claimCreatorFees() returns()
-func (_SafePumpFactory *SafePumpFactorySession) ClaimCreatorFees() (*types.Transaction, error) {
-	return _SafePumpFactory.Contract.ClaimCreatorFees(&_SafePumpFactory.TransactOpts)
-}
-
-// ClaimCreatorFees is a paid mutator transaction binding the contract method 0x351fee46.
-//
-// Solidity: function claimCreatorFees() returns()
-func (_SafePumpFactory *SafePumpFactoryTransactorSession) ClaimCreatorFees() (*types.Transaction, error) {
-	return _SafePumpFactory.Contract.ClaimCreatorFees(&_SafePumpFactory.TransactOpts)
-}
-
 // ClaimPlatformFees is a paid mutator transaction binding the contract method 0x2bebf6bf.
 //
 // Solidity: function claimPlatformFees() returns()
@@ -708,21 +692,21 @@ func (_SafePumpFactory *SafePumpFactoryTransactorSession) ClaimPlatformFees() (*
 
 // CreateToken is a paid mutator transaction binding the contract method 0x2f2f2d56.
 //
-// Solidity: function createToken(string name, string symbol) returns(address)
+// Solidity: function createToken(string name, string symbol) payable returns(address)
 func (_SafePumpFactory *SafePumpFactoryTransactor) CreateToken(opts *bind.TransactOpts, name string, symbol string) (*types.Transaction, error) {
 	return _SafePumpFactory.contract.Transact(opts, "createToken", name, symbol)
 }
 
 // CreateToken is a paid mutator transaction binding the contract method 0x2f2f2d56.
 //
-// Solidity: function createToken(string name, string symbol) returns(address)
+// Solidity: function createToken(string name, string symbol) payable returns(address)
 func (_SafePumpFactory *SafePumpFactorySession) CreateToken(name string, symbol string) (*types.Transaction, error) {
 	return _SafePumpFactory.Contract.CreateToken(&_SafePumpFactory.TransactOpts, name, symbol)
 }
 
 // CreateToken is a paid mutator transaction binding the contract method 0x2f2f2d56.
 //
-// Solidity: function createToken(string name, string symbol) returns(address)
+// Solidity: function createToken(string name, string symbol) payable returns(address)
 func (_SafePumpFactory *SafePumpFactoryTransactorSession) CreateToken(name string, symbol string) (*types.Transaction, error) {
 	return _SafePumpFactory.Contract.CreateToken(&_SafePumpFactory.TransactOpts, name, symbol)
 }

@@ -35,7 +35,7 @@ func InitDB(dsn string) (*gorm.DB, error) {
 	log.Println("Database connection pool established successfully.")
 
 	// Automatically run migrations
-	err = db.AutoMigrate(&SystemConfig{}, &Token{}, &Trade{})
+	err = db.AutoMigrate(&SystemConfig{}, &Token{}, &Trade{}, &User{})
 	if err != nil {
 		return nil, fmt.Errorf("database auto-migration failed: %w", err)
 	}
