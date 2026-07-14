@@ -1339,7 +1339,9 @@ export default function App() {
               display: 'grid', 
               gridTemplateColumns: 'repeat(3, 1fr)', 
               gap: '20px', 
-              marginTop: '16px' 
+              marginTop: '16px',
+              width: '90%',
+              margin: '16px auto 0 auto'
             }}>
               {filteredTokens.length === 0 ? (
                 <div className="glass-panel" style={{ gridColumn: '1 / -1', padding: '60px 20px', textAlign: 'center', color: 'var(--color-text-muted)' }}>
