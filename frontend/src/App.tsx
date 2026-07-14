@@ -1280,7 +1280,7 @@ export default function App() {
               gap: '16px', 
               flexWrap: 'wrap', 
               width: '90%', 
-              margin: '0 auto 12px auto',
+              margin: '20px auto 4px auto',
               padding: '16px 20px',
               border: '1px solid var(--border-glass)',
               borderRadius: '16px'
@@ -1350,9 +1350,9 @@ export default function App() {
               display: 'grid', 
               gridTemplateColumns: 'repeat(3, 1fr)', 
               gap: '20px', 
-              marginTop: '16px',
+              marginTop: '4px',
               width: '90%',
-              margin: '16px auto 0 auto'
+              margin: '4px auto 0 auto'
             }}>
               {filteredTokens.length === 0 ? (
                 <div className="glass-panel" style={{ gridColumn: '1 / -1', padding: '60px 20px', textAlign: 'center', color: 'var(--color-text-muted)' }}>
