@@ -1364,8 +1364,9 @@ export default function App() {
                         padding: '20px', 
                         cursor: 'pointer', 
                         display: 'flex', 
-                        flexDirection: 'column', 
-                        gap: '14px', 
+                        flexDirection: 'row', 
+                        gap: '16px', 
+                        alignItems: 'stretch',
                         position: 'relative',
                         transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
                         border: '1px solid var(--border-glass)',
@@ -1381,19 +1382,19 @@ export default function App() {
                         e.currentTarget.style.borderColor = 'var(--border-glass)';
                       }}
                     >
-                      {/* Centered Large Image (3x larger: 192px) */}
-                      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '4px' }}>
+                      {/* Left Side: Large Image (192px) */}
+                      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                         {t.image_url ? (
                           <img 
                             src={t.image_url} 
                             alt={t.name} 
-                            style={{ width: '192px', height: '192px', borderRadius: '16px', objectFit: 'cover', flexShrink: 0, border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }} 
+                            style={{ width: '192px', height: '192px', borderRadius: '12px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }} 
                           />
                         ) : (
                           <div style={{
                             width: '192px',
                             height: '192px',
-                            borderRadius: '16px',
+                            borderRadius: '12px',
                             background: getDeterministicGradient(t.address),
                             display: 'flex',
                             alignItems: 'center',
@@ -1401,7 +1402,6 @@ export default function App() {
                             fontWeight: 'bold',
                             color: '#fff',
                             fontSize: '2.5rem',
-                            flexShrink: 0,
                             border: '1px solid rgba(255,255,255,0.08)',
                             boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
                           }}>
@@ -1410,118 +1410,117 @@ export default function App() {
                         )}
                       </div>
 
-                      {/* Token details row */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minWidth: 0, gap: '10px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0, flex: 1 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={t.name}>
+                      {/* Right Side: Information Details */}
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', minWidth: 0, justifyContent: 'space-between' }}>
+                        {/* Title and Symbol */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'space-between' }}>
+                            <span style={{ fontSize: '1rem', fontWeight: 800, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }} title={t.name}>
                               {t.name}
                             </span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--color-primary)', fontWeight: 800 }}>
+                              ${t.symbol}
+                            </span>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>
+                              Par: <span 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setViewProfileAddress(t.creator);
+                                  setSelectedToken(null);
+                                }}
+                                style={{ color: 'var(--color-text-muted)', textDecoration: 'underline', cursor: 'pointer' }}
+                              >
+                                {shortenAddress(t.creator)}
+                              </span>
+                            </span>
                             {isMyCreation && (
-                              <span style={{ background: 'var(--color-primary-glow)', color: 'var(--color-primary)', fontSize: '0.6rem', padding: '1px 5px', borderRadius: '4px', border: '1px solid var(--color-primary)', fontWeight: 'bold' }}>
+                              <span style={{ background: 'var(--color-primary-glow)', color: 'var(--color-primary)', fontSize: '0.65rem', padding: '1px 5px', borderRadius: '4px', border: '1px solid var(--color-primary)', fontWeight: 'bold' }}>
                                 Dev
                               </span>
                             )}
                           </div>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>
-                            Créateur: <span 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setViewProfileAddress(t.creator);
-                                setSelectedToken(null);
-                              }}
-                              style={{ color: 'var(--color-text-muted)', textDecoration: 'underline', cursor: 'pointer' }}
-                            >
-                              {shortenAddress(t.creator)}
+                        </div>
+
+                        {/* Description */}
+                        <p style={{ 
+                          margin: 0, 
+                          fontSize: '0.78rem', 
+                          color: 'var(--color-text-muted)', 
+                          lineHeight: '1.4',
+                          height: '36px',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}>
+                          {t.description || "Aucune description fournie pour ce meme coin."}
+                        </p>
+
+                        {/* Indicators: Mcap & Vol */}
+                        <div style={{ 
+                          display: 'grid', 
+                          gridTemplateColumns: '1fr 1fr', 
+                          gap: '6px', 
+                          background: 'rgba(255,255,255,0.01)', 
+                          padding: '8px 10px', 
+                          borderRadius: '8px', 
+                          border: '1px solid rgba(255,255,255,0.03)' 
+                        }}>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontSize: '0.6rem', color: 'var(--color-text-dark)', fontWeight: 600, textTransform: 'uppercase' }}>Mcap</span>
+                            <span style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--color-success)' }}>
+                              ${mcapUsd >= 1000000 ? `${(mcapUsd / 1000000).toFixed(2)}M` : mcapUsd >= 1000 ? `${(mcapUsd / 1000).toFixed(1)}K` : mcapUsd.toFixed(2)}
                             </span>
-                          </span>
-                        </div>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 800, flexShrink: 0, background: 'rgba(59, 130, 246, 0.08)', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(59, 130, 246, 0.15)' }}>
-                          ${t.symbol}
-                        </span>
-                      </div>
-
-                      {/* Comment / Description */}
-                      <p style={{ 
-                        margin: 0, 
-                        fontSize: '0.8rem', 
-                        color: 'var(--color-text-muted)', 
-                        lineHeight: '1.4',
-                        height: '38px',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                        {t.description || "Aucune description fournie pour ce meme coin."}
-                      </p>
-
-                      {/* Indicators: Market Cap & Volume */}
-                      <div style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: '1fr 1fr', 
-                        gap: '10px', 
-                        background: 'rgba(255,255,255,0.01)', 
-                        padding: '12px', 
-                        borderRadius: '10px', 
-                        border: '1px solid rgba(255,255,255,0.04)' 
-                      }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                          <span style={{ fontSize: '0.65rem', color: 'var(--color-text-dark)', fontWeight: 600, textTransform: 'uppercase' }}>Market Cap</span>
-                          <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--color-success)' }}>
-                            ${mcapUsd >= 1000000 ? `${(mcapUsd / 1000000).toFixed(2)}M` : mcapUsd >= 1000 ? `${(mcapUsd / 1000).toFixed(1)}K` : mcapUsd.toFixed(2)}
-                            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: 'normal', marginLeft: '4px' }}>
-                              ({mcapEth.toFixed(1)} ETH)
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontSize: '0.6rem', color: 'var(--color-text-dark)', fontWeight: 600, textTransform: 'uppercase' }}>Volume</span>
+                            <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#fff' }}>
+                              {ethRaisedNum.toFixed(1)} ETH
                             </span>
+                          </div>
+                        </div>
+
+                        {/* Bonding Curve */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', color: 'var(--color-text-muted)' }}>
+                            <span>Bonding Curve</span>
+                            <span style={{ fontWeight: 'bold' }}>{progress.toFixed(1)}%</span>
+                          </div>
+                          <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.04)', borderRadius: '2px', overflow: 'hidden' }}>
+                            <div style={{ width: `${progress}%`, height: '100%', background: t.migrated ? 'var(--color-success)' : 'var(--color-primary)' }} />
+                          </div>
+                        </div>
+
+                        {/* Footer: Age & Swap */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '8px' }}>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--color-text-dark)' }}>
+                            {getRelativeTime(t.created_at)}
                           </span>
+                          
+                          <button 
+                            className={`btn ${t.migrated ? 'btn-secondary' : 'btn-primary'}`}
+                            style={{ 
+                              padding: '4px 12px', 
+                              fontSize: '0.72rem', 
+                              height: '26px', 
+                              borderRadius: '6px', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              gap: '4px',
+                              fontWeight: 'bold'
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedToken(t);
+                            }}
+                          >
+                            <span>Swap</span>
+                            <ArrowLeft size={8} style={{ transform: 'rotate(180deg)' }} />
+                          </button>
                         </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                          <span style={{ fontSize: '0.65rem', color: 'var(--color-text-dark)', fontWeight: 600, textTransform: 'uppercase' }}>Volume</span>
-                          <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff' }}>
-                            {ethRaisedNum.toFixed(2)} ETH
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Bonding Curve progress */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem' }}>
-                          <span style={{ color: 'var(--color-text-muted)' }}>Courbe de liaison</span>
-                          <span style={{ fontWeight: 'bold', color: t.migrated ? 'var(--color-success)' : 'var(--color-primary)' }}>{progress.toFixed(1)}%</span>
-                        </div>
-                        <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
-                          <div style={{ width: `${progress}%`, height: '100%', background: t.migrated ? 'var(--color-success)' : 'var(--color-primary)', borderRadius: '3px' }} />
-                        </div>
-                      </div>
-
-                      {/* Bottom Footer: Swap Button & Age */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '12px', marginTop: '4px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--color-text-dark)' }}>
-                          Lancé {getRelativeTime(t.created_at)}
-                        </span>
-                        
-                        <button 
-                          className={`btn ${t.migrated ? 'btn-secondary' : 'btn-primary'}`}
-                          style={{ 
-                            padding: '6px 16px', 
-                            fontSize: '0.75rem', 
-                            height: 'auto', 
-                            borderRadius: '8px', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: '4px',
-                            fontWeight: 'bold'
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedToken(t);
-                          }}
-                        >
-                          <span>Swap</span>
-                          <ArrowLeft size={10} style={{ transform: 'rotate(180deg)' }} />
-                        </button>
                       </div>
                     </div>
                   )
