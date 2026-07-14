@@ -1337,7 +1337,7 @@ export default function App() {
             {/* TOKENS GRID LAYOUT */}
             <div style={{ 
               display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(330px, 1fr))', 
+              gridTemplateColumns: 'repeat(3, 1fr)', 
               gap: '20px', 
               marginTop: '16px' 
             }}>
@@ -1381,36 +1381,40 @@ export default function App() {
                         e.currentTarget.style.borderColor = 'var(--border-glass)';
                       }}
                     >
-                      {/* Top Header: Image and Name details */}
-                      <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                      {/* Centered Large Image (3x larger: 192px) */}
+                      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '4px' }}>
                         {t.image_url ? (
                           <img 
                             src={t.image_url} 
                             alt={t.name} 
-                            style={{ width: '64px', height: '64px', borderRadius: '12px', objectFit: 'cover', flexShrink: 0, border: '1px solid rgba(255,255,255,0.08)' }} 
+                            style={{ width: '192px', height: '192px', borderRadius: '16px', objectFit: 'cover', flexShrink: 0, border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }} 
                           />
                         ) : (
                           <div style={{
-                            width: '64px',
-                            height: '64px',
-                            borderRadius: '12px',
+                            width: '192px',
+                            height: '192px',
+                            borderRadius: '16px',
                             background: getDeterministicGradient(t.address),
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontWeight: 'bold',
                             color: '#fff',
-                            fontSize: '1.2rem',
+                            fontSize: '2.5rem',
                             flexShrink: 0,
-                            border: '1px solid rgba(255,255,255,0.08)'
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
                           }}>
                             {t.symbol.slice(0, 2).toUpperCase()}
                           </div>
                         )}
+                      </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1, gap: '2px' }}>
+                      {/* Token details row */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minWidth: 0, gap: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0, flex: 1 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '1rem', fontWeight: 800, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }} title={t.name}>
+                            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={t.name}>
                               {t.name}
                             </span>
                             {isMyCreation && (
@@ -1419,9 +1423,6 @@ export default function App() {
                               </span>
                             )}
                           </div>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--color-primary)', fontWeight: 700 }}>
-                            ${t.symbol}
-                          </span>
                           <span style={{ fontSize: '0.72rem', color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>
                             Créateur: <span 
                               onClick={(e) => {
@@ -1435,6 +1436,9 @@ export default function App() {
                             </span>
                           </span>
                         </div>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 800, flexShrink: 0, background: 'rgba(59, 130, 246, 0.08)', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(59, 130, 246, 0.15)' }}>
+                          ${t.symbol}
+                        </span>
                       </div>
 
                       {/* Comment / Description */}
