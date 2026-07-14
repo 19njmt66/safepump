@@ -1273,7 +1273,18 @@ export default function App() {
         ) : !selectedToken ? (
           <>
             {/* FILTER AND ACTION BAR */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', width: '100%', marginBottom: '12px' }}>
+            <div className="glass-panel" style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              gap: '16px', 
+              flexWrap: 'wrap', 
+              width: '90%', 
+              margin: '0 auto 12px auto',
+              padding: '16px 20px',
+              border: '1px solid var(--border-glass)',
+              borderRadius: '16px'
+            }}>
               {/* Left controls group */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', flex: 1 }}>
                 {/* 4 Mutually Exclusive Filters */}
